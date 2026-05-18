@@ -1,0 +1,50 @@
+- [Drew Fustini](user_drew.md) — RISC-V kernel maintainer, T-Head SoCs, QoS/CBQRI/resctrl work
+- [Drew's writing style](user_drew_writing_style.md) — lkml voice (5yr/447-email sample): humble, terse, asks-not-demands, footnote refs, sign off `Drew` (capitalized; do not lowercase)
+- [Ssqosid/CBQRI series](project_ssqosid_cbqri.md) — v4 sent 2026-05-10 (18 patches), v5 prep on b4/ssqosid-cbqri-rqsc with sashiko fixes folded
+- [Sashiko v3 findings (#45)](project_sashiko_45_pending_findings.md) — historical, B/D/E/F landed and other items resolved/closed before v4 send
+- [Sashiko v4 findings](project_sashiko_v4_findings.md) — all real items folded into b4/ssqosid-cbqri-rqsc except 3 deferrals; P14 had no LLM review, manual follow-up landed
+- [v2 review feedback](project_v2_review_feedback.md) — Reinette and Radim review items, all fixed in v3
+- [v4 Reinette self-review](project_v4_reinette_review.md) — all cheap-fix items landed before v4 send; held items are design-level "wait for Reinette"
+- [ORC mbox workaround](feedback_orc_mbox.md) — create_changes.py needs manual commit-message.json for mbox inputs
+- [Use b4 for lore](feedback_lore_access.md) — WebFetch fails on lore.kernel.org, use b4 mbox instead
+- [Separate commits](feedback_separate_commits.md) — One commit per logical change, don't bundle
+- [Kernel log levels in QoS/CBQRI](feedback_keep_debug_prints.md), pr_err and pr_warn are default-visible, pr_info and pr_debug are opt-in verbose for investigation
+- [Build with LLVM](feedback_build_llvm.md) — Always use LLVM=1 W=1, never GCC. Use ./llvm.sh
+- [Build matrix sequential](feedback_build_sequential.md) — 16-CPU server: run multiple builds sequentially with -j16 each, not in parallel
+- [build-matrix.sh](reference_build_matrix.md) — 6-config 0day-style build matrix script in linux/; uses worktree as srctree, W=1, no blanket -Werror
+- [Kbuild O= needs clean srctree](feedback_kbuild_o_worktree.md) — when "source tree is not clean" fires, use a linked worktree at HEAD instead of mrproper
+- [Ready-to-send gates](feedback_ready_to_send_gates.md) — before saying a series is ready to send, run checkpatch --strict, sparse, and ./build-matrix.sh
+- [Don't ask permission](feedback_dont_ask_permission.md) — Just proceed with git ops, don't block waiting for confirmation
+- [Reduce permission prompts](feedback_reduce_permissions.md) — Batch commands, never split read-only git ops
+- [QEMU socket testing](reference_qemu_socket.md) — Use unix socket + socat for QEMU guest shell access
+- [Mon event ordering](feedback_mon_event_ordering.md) — enable_mon_event BEFORE online_mon_domain, or rmid_busy_llc is NULL
+- [cbqri-asc-sc.c](reference_cbqri_asc_sc.md) — RISC-V asm test for Ascalon L2 cache CBQRI, runs on Zebu/HAPS FPGA emulation
+- [asc-l2.c](reference_asc_l2.md) — userspace C utility for Ascalon L2 PMU/CBQRI via OpenSBI debugfs
+- [RISC-V spec PDFs](reference_riscv_specs.md) — riscv-specs/ dir has ratified SBI v3.0 PDF, read with pages param
+- [Ascalon CBQRI test driver](project_ascalon_cbqri_test.md) — branch dfustini/atl-cbqri-test, worktree .worktrees/ascalon-cbqri-test, standalone patch, 10-test driver running on HAPS
+- [Ascalon CBQRI M-mode access](project_ascalon_cbqri_mmode.md) — REFUTED: prior "S-mode MMIO dropped" was wrong base 0x421a; works at 0xA21a
+- [Atlantis SC CBQRI findings](project_atlantis_sc_cbqri_findings.md) — fully characterized (NRCIDs=16, AT={0,1}, STATUS={1,2,3,4} observed, no STATUS=5, WPRI ignored, overlap allowed); CBQRI monitoring NOT implemented
+- [CBQRI BW mon via L3 scope](project_cbqri_bw_mon_l3.md) — experimental branch cbqri-bw-mon-l3-scope; 4 commits that expose BC monitoring as QOS_L3_MBM_TOTAL, MPAM-style
+- [cbqri-mpam-align branch](project_cbqri_mpam_align.md) — archived v5 restructure WIP: move CBQRI to drivers/resctrl/, MPAM-style 3-phase setup, MB_MIN/MB_PROP rename
+- [Use git worktrees](feedback_use_worktrees.md) — always use worktrees, never switch branches in main working dir; .worktrees/ already gitignored
+- [Branch naming for gitlab](feedback_branch_naming.md) — `dfustini/<soc>-<topic>` (e.g. `dfustini/atl-cbqri-test`); SoC prefix tells collaborators the target hardware
+- [Use b4 for cover letters](feedback_b4_cover.md) — b4 prep --edit-cover; non-interactive trick via GIT_CONFIG_COUNT override; input must not include tracking marker
+- [Cover letter style](feedback_cover_letter_style.md) — six patterns: user-facing opening, flag review center, grouped changelog with what/where/why, keep old changelogs
+- [No refactor commits in a series](feedback_no_refactor_in_series.md) — series structure follows logical fit for a fresh reviewer, not dev timeline; fold rework of same-series code into the patches that introduced it
+- [Splitting a large kernel commit](feedback_split_large_commit.md) — feature axis with alloc/mon sub-split, scaffolding patch first, no __maybe_unused, verify W=1 per commit
+- [Sashiko local](reference_sashiko_local.md) — ~/dev/sashiko built+configured for claude-cli; submit via `--type range`, NOT cat'd format-patch mbox
+- [resctrl_arch_get_num_closid for unpicked rids](feedback_resctrl_arch_get_num_closid.md) — fs/resctrl calls this on resources the arch may not back (e.g. MBA on CBQRI); must NULL-check ctrl before deref
+- [QEMU ACPI/CBQRI test scripts](reference_qemu_acpi_test_scripts.md) — `~/dev/qemu/run-acpi-sock-{1bc,3bc}.sh` daemonized launchers; baselines 21/0/8 (1bc) and 15/0/11 (3bc)
+- [OpenSBI mail archive (local)](reference_opensbi_mail_archive.md) — `~/opensbi-mail-archive/2026-{Jan..May}.txt` mbox-style; grep with `-i` for offline list searches
+- [OpenSBI archive purpose](feedback_opensbi_archive_purpose.md) — broad awareness for NotebookLM audio digests, do NOT filter to current series
+- [No em-dash, no `-`/`;` mid-sentence](feedback_no_em_dash.md), use `,` or shorter sentences in prose, code, commits, docs
+- [Changelog: no dev timeline](feedback_changelog_no_dev_timeline.md) - "Changes in vN" describes v(N) state vs v(N-1), never dev process; no "folded into X", no commit-msg-only items
+- [Minimize fs/resctrl changes](feedback_minimize_fs_resctrl_changes.md) — don't touch fs/resctrl in cbqri series unless required for cbqri to function; QoL cleanups go in a separate fs/resctrl series
+- [Skip checkpatch on b4 cover](feedback_skip_checkpatch_cover.md) — b4 cover-letter commit always trips checkpatch (RST underlines, tracking marker, `#` lines); skip it, scope checkpatch loops to start-commit..HEAD
+- [Use American English](feedback_american_english.md) — Drew writes in American English; default to color/behavior/serialize/organization, not colour/behaviour/serialise/organisation
+- [Trailer order](feedback_trailer_order.md) — `Assisted-by:` goes before `Signed-off-by:` in commit messages; SoB always last
+- [Single space after sentences](feedback_single_space_sentences.md) — kernel style: one space after end of sentence, never two; applies to commits, comments, docs
+- [No @symbol in non-kernel-doc](feedback_no_at_in_regular_comments.md), reserve `@name` for kernel-doc; bare names in regular `/* */` comments and commit messages
+- [Don't say "Mirrors X"](feedback_no_mirrors_attribution.md), drop "Mirrors MPAM's foo()" framing; experienced reviewers draw the parallel themselves
+- [No patch refs in code comments](feedback_no_patch_refs_in_comments.md), "this patch"/"later patch" is fine in commit msgs but nonsense in source files at HEAD
+- [Terse for kernel devs](feedback_kernel_terse.md) — kernel commits/comments target experienced devs; don't narrate code or teach basics, terse beats verbose
